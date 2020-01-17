@@ -1,31 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import PropTypes from 'prop-types';
 
 const App = () => {
   const course = 'Half stack application development';
-  const part1 = 'Fundamentals of React';
-  const exercises1 = 10;
-  const part2 = 'using props to pass data';
-  const exercises2 = 7;
-  const part3 = 'state of a component';
-  const exercises3 = 14;
-
-  App.propTypes = {
-    course: PropTypes.string,
-    sum: PropTypes.number,
-    part: PropTypes.string,
-    exercises: PropTypes.string,
-    text: PropTypes.string,
-  };
-
-  App.defaultProps = {
-    course: '',
-    sum: 0,
-    part: '',
-    exercises: '',
-    text: '',
-  };
+  const parts = [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10,
+    },
+    {
+      name: 'using props to pass data',
+      exercises: 7,
+    },
+    {
+      name: 'state of a component',
+      exercises: 14,
+    },
+  ];
 
   const Header = ({ course }) => (
     <div>
@@ -35,9 +26,9 @@ const App = () => {
 
   const Content = () => (
     <div>
-      <p>{`${part1} ${exercises1}`}</p>
-      <p>{`${part2} ${exercises2}`}</p>
-      <p>{`${part3} ${exercises3}`}</p>
+      <p>{`${parts[0].name} ${parts[0].exercises}`}</p>
+      <p>{`${parts[1].name} ${parts[1].exercises}`}</p>
+      <p>{`${parts[2].name} ${parts[2].exercises}`}</p>
     </div>
   );
 
@@ -51,7 +42,10 @@ const App = () => {
     <div>
       <Header course={course} />
       <Content />
-      <Total sum={exercises1 + exercises2 + exercises3} text="Number of exercises " />
+      <Total
+        sum={parts[0].exercises + parts[1].exercises + parts[2].exercises}
+        text="Number of exercises "
+      />
     </div>
   );
 };
