@@ -1,43 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
-const Hello = ({ name, age }) => {
-  Hello.propTypes = {
-    name: PropTypes.string,
-    age: PropTypes.number,
-  };
-
-  Hello.defaultProps = {
-    name: '',
-    age: 0,
-  };
-
-  const bornYear = () => new Date().getFullYear() - age;
-
-  return (
-    <div>
-      <p>
-        Hello
-        {` ${name}, `}
-        you are
-        {` ${age} `}
-        years old and probably born in
-        {` ${bornYear()}.`}
-      </p>
-    </div>
-  );
-};
-
 const App = () => {
-  const name = 'Peter';
-  const age = 10;
+  const Display = ({ counter }) => <div>{counter}</div>;
+  const Button = ({ text, onClick }) => (
+    <button onClick={onClick} type="button">
+      {text}
+    </button>
+  );
+  const [counter, setCounter] = useState(0);
 
+  const setToValue = (value) => () => setCounter(value);
+
+  setTimeout(() => setCounter(counter + 1), 1000);
   return (
     <div>
-      <h1>Greetings</h1>
-      <Hello name="Maya" age={26 + 18} />
-      <Hello name={name} age={age} />
+      <Display counter={counter} />
+      <Button onClick={() => setToValue(counter + 1)} text="plus" />
+      <Button onClick={() => setToValue(counter - 1)} text="minus" />
+      <Button onClick={() => setToValue(0)} text="zero" />
     </div>
   );
 };
