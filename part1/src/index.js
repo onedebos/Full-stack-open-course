@@ -1,53 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 
-const App = () => {
-  const course = {
-    name: 'Half stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10,
-      },
-      {
-        name: 'using props to pass data',
-        exercises: 7,
-      },
-      {
-        name: 'state of a component',
-        exercises: 14,
-      },
-    ],
+const Hello = ({ name, age }) => {
+  Hello.propTypes = {
+    name: PropTypes.string,
+    age: PropTypes.number,
   };
 
-  const Header = ({ course }) => (
-    <div>
-      <h1>{course}</h1>
-    </div>
-  );
+  Hello.defaultProps = {
+    name: '',
+    age: 0,
+  };
 
-  const Content = ({ part, exercises }) => (
-    <div>
-      <p>{`${part} ${exercises}`}</p>
-    </div>
-  );
-
-  const Total = ({ sum, text }) => (
-    <div>
-      <p>{text + sum}</p>
-    </div>
-  );
+  const bornYear = () => new Date().getFullYear() - age;
 
   return (
     <div>
-      <Header course={course.name} />
-      <Content part={course.parts[0].name} exercises={course.parts[0].exercises} />
-      <Content part={course.parts[1].name} exercises={course.parts[1].exercises} />
-      <Content part={course.parts[2].name} exercises={course.parts[2].exercises} />
-      <Total
-        sum={course.parts[0].exercises + course.parts[1].exercises + course.parts[2].exercises}
-        text="Number of exercises "
-      />
+      <p>
+        Hello
+        {` ${name}, `}
+        you are
+        {` ${age} `}
+        years old and probably born in
+        {` ${bornYear()}.`}
+      </p>
+    </div>
+  );
+};
+
+const App = () => {
+  const name = 'Peter';
+  const age = 10;
+
+  return (
+    <div>
+      <h1>Greetings</h1>
+      <Hello name="Maya" age={26 + 18} />
+      <Hello name={name} age={age} />
     </div>
   );
 };
