@@ -24,11 +24,9 @@ const App = () => {
     </div>
   );
 
-  const Content = () => (
+  const Content = ({ part, exercises }) => (
     <div>
-      <p>{`${parts[0].name} ${parts[0].exercises}`}</p>
-      <p>{`${parts[1].name} ${parts[1].exercises}`}</p>
-      <p>{`${parts[2].name} ${parts[2].exercises}`}</p>
+      <p>{`${part} ${exercises}`}</p>
     </div>
   );
 
@@ -41,7 +39,9 @@ const App = () => {
   return (
     <div>
       <Header course={course} />
-      <Content />
+      <Content part={parts[0].name} exercises={parts[0].exercises} />
+      <Content part={parts[1].name} exercises={parts[1].exercises} />
+      <Content part={parts[2].name} exercises={parts[2].exercises} />
       <Total
         sum={parts[0].exercises + parts[1].exercises + parts[2].exercises}
         text="Number of exercises "
