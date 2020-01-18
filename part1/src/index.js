@@ -40,40 +40,67 @@ const App = () => {
     bad: 0,
     neutral: 0,
     good: 0,
-    all: 0,
+    total: 0,
     average: 0,
     positive: 0,
   });
 
   const handleGood = () => {
-    console.log(setCalculator(calculate.good + 1));
-    updateTotal();
+    setCalculator({
+      ...calculate,
+      total: calculate.good + calculate.bad + calculate.neutral + 1,
+      good: calculate.good + 1,
+      positive: ((calculate.good + 1) / (calculate.total + 1)) * 100,
+      average: (calculate.good - 1 - (calculate.bad - 1)) / calculate.total,
+    });
   };
 
   const handleBad = () => {
-    setCalculator(calculate.bad + 1);
-    updateTotal();
+    setCalculator({
+      ...calculate,
+
+      total: calculate.good + calculate.bad + calculate.neutral + 1,
+      bad: calculate.bad + 1,
+      positive: (calculate.good / (calculate.total + 1)) * 100,
+      average: (calculate.good - 1 - (calculate.bad - 1)) / calculate.total,
+    });
   };
   const handleNeutral = () => {
-    setCalculator(calculate.neutral + 1);
-    updateTotal();
+    setCalculator({
+      ...calculate,
+      total: calculate.good + calculate.bad + calculate.neutral + 1,
+      neutral: calculate.neutral + 1,
+      positive: (calculate.good / (calculate.total + 1)) * 100,
+      average: (calculate.good - 1 - (calculate.bad - 1)) / calculate.total,
+    });
   };
 
-  const updateTotal = () => setCalculator(calculate.good + calculate.bad + calculate.neutral + 1);
+  const reset = () => {
+    setCalculator({
+      ...calculate,
+      positive: 0,
+      total: 0,
+      neutral: 0,
+      average: 0,
+      bad: 0,
+      good: 0,
+    });
+  };
 
   return (
     <div>
       <Titles title="give feedback" />
       <Button buttonName="good" whenClicked={handleGood} />
       <Button buttonName="bad" whenClicked={handleBad} />
+      <Button buttonName="reset" whenClicked={reset} />
       <Button buttonName="neutral" whenClicked={handleNeutral} />
       <Titles title="statistics" />
       <Display text="good" counter={calculate.good} />
-      <Display text="bad" counter={calculate.bad} />
       <Display text="neutral" counter={calculate.neutral} />
+      <Display text="bad" counter={calculate.bad} />
       <Display text="Totals: " counter={calculate.total} />
-      <Display text="Average: " counter={calculate.total} />
-      <Display text="Positive: " counter={calculate.total} />
+      <Display text="Average: " counter={calculate.average} />
+      <Display text="Positive: " counter={calculate.positive + '%'} />
     </div>
   );
 };
