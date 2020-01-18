@@ -2,24 +2,64 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 
+const Titles = ({ title }) => <h1>{title}</h1>;
+
+const Display = ({ text, counter }) => <div>{`${text} ${counter}`}</div>;
+const Button = ({ buttonName, whenClicked }) => (
+  <button type="button" onClick={whenClicked}>
+    {buttonName}
+  </button>
+);
+
+Titles.propTypes = {
+  title: PropTypes.string,
+};
+Display.propTypes = {
+  text: PropTypes.string,
+  counter: PropTypes.number,
+};
+Button.propTypes = {
+  buttonName: PropTypes.string,
+  whenClicked: PropTypes.func,
+};
+
+Titles.defaultProps = {
+  title: '',
+};
+
+Button.defaultProps = {
+  buttonName: '',
+  whenClicked: '',
+};
+Display.defaultProps = {
+  text: '',
+  counter: 0,
+};
 const App = () => {
-  const Display = ({ counter }) => <div>{counter}</div>;
-  const Button = ({ text, onClick }) => (
-    <button onClick={onClick} type="button">
-      {text}
-    </button>
-  );
-  const [counter, setCounter] = useState(0);
+  const [good, setGood] = useState(0);
+  const [bad, setBad] = useState(0);
+  const [neutral, setNeutral] = useState(0);
 
-  const setToValue = (value) => () => setCounter(value);
+  const handleGood = () => {
+    setGood(good + 1);
+  };
 
-  setTimeout(() => setCounter(counter + 1), 1000);
+  const handleBad = () => {
+    setBad(bad + 1);
+  };
+  const handleNeutral = () => {
+    setNeutral(neutral + 1);
+  };
   return (
     <div>
-      <Display counter={counter} />
-      <Button onClick={() => setToValue(counter + 1)} text="plus" />
-      <Button onClick={() => setToValue(counter - 1)} text="minus" />
-      <Button onClick={() => setToValue(0)} text="zero" />
+      <Titles title="give feedback" />
+      <Button buttonName="good" whenClicked={handleGood} />
+      <Button buttonName="bad" whenClicked={handleBad} />
+      <Button buttonName="neutral" whenClicked={handleNeutral} />
+      <Titles title="statistics" />
+      <Display text="good" counter={good} />
+      <Display text="bad" counter={bad} />
+      <Display text="neutral" counter={neutral} />
     </div>
   );
 };
