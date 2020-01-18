@@ -4,7 +4,12 @@ import PropTypes from 'prop-types';
 
 const Titles = ({ title }) => <h1>{title}</h1>;
 
-const Display = ({ text, counter }) => <div>{`${text} ${counter}`}</div>;
+const Display = ({ text, counter, symbol }) => (
+  <div>
+    {`${text} ${counter}`}
+    {symbol === undefined ? '' : `${symbol}`}
+  </div>
+);
 const Button = ({ buttonName, whenClicked }) => (
   <button type="button" onClick={whenClicked}>
     {buttonName}
@@ -17,6 +22,7 @@ Titles.propTypes = {
 Display.propTypes = {
   text: PropTypes.string,
   counter: PropTypes.number,
+  symbol: PropTypes.string,
 };
 Button.propTypes = {
   buttonName: PropTypes.string,
@@ -34,6 +40,7 @@ Button.defaultProps = {
 Display.defaultProps = {
   text: '',
   counter: 0,
+  symbol: '',
 };
 const App = () => {
   const [calculate, setCalculator] = useState({
@@ -51,7 +58,7 @@ const App = () => {
       total: calculate.good + calculate.bad + calculate.neutral + 1,
       good: calculate.good + 1,
       positive: ((calculate.good + 1) / (calculate.total + 1)) * 100,
-      average: (calculate.good - 1 - (calculate.bad - 1)) / calculate.total,
+      average: (calculate.good + 1 - calculate.bad) / (calculate.total + 1),
     });
   };
 
@@ -62,7 +69,7 @@ const App = () => {
       total: calculate.good + calculate.bad + calculate.neutral + 1,
       bad: calculate.bad + 1,
       positive: (calculate.good / (calculate.total + 1)) * 100,
-      average: (calculate.good - 1 - (calculate.bad - 1)) / calculate.total,
+      average: (calculate.good - (calculate.bad + 1)) / (calculate.total + 1),
     });
   };
   const handleNeutral = () => {
@@ -71,7 +78,7 @@ const App = () => {
       total: calculate.good + calculate.bad + calculate.neutral + 1,
       neutral: calculate.neutral + 1,
       positive: (calculate.good / (calculate.total + 1)) * 100,
-      average: (calculate.good - 1 - (calculate.bad - 1)) / calculate.total,
+      average: (calculate.good - calculate.bad) / (calculate.total + 1),
     });
   };
 
@@ -100,7 +107,7 @@ const App = () => {
       <Display text="bad" counter={calculate.bad} />
       <Display text="Totals: " counter={calculate.total} />
       <Display text="Average: " counter={calculate.average} />
-      <Display text="Positive: " counter={calculate.positive + '%'} />
+      <Display text="Positive: " counter={calculate.positive} symbol="%" />
     </div>
   );
 };
