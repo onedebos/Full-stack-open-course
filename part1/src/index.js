@@ -36,20 +36,31 @@ Display.defaultProps = {
   counter: 0,
 };
 const App = () => {
-  const [good, setGood] = useState(0);
-  const [bad, setBad] = useState(0);
-  const [neutral, setNeutral] = useState(0);
+  const [calculate, setCalculator] = useState({
+    bad: 0,
+    neutral: 0,
+    good: 0,
+    all: 0,
+    average: 0,
+    positive: 0,
+  });
 
   const handleGood = () => {
-    setGood(good + 1);
+    console.log(setCalculator(calculate.good + 1));
+    updateTotal();
   };
 
   const handleBad = () => {
-    setBad(bad + 1);
+    setCalculator(calculate.bad + 1);
+    updateTotal();
   };
   const handleNeutral = () => {
-    setNeutral(neutral + 1);
+    setCalculator(calculate.neutral + 1);
+    updateTotal();
   };
+
+  const updateTotal = () => setCalculator(calculate.good + calculate.bad + calculate.neutral + 1);
+
   return (
     <div>
       <Titles title="give feedback" />
@@ -57,9 +68,12 @@ const App = () => {
       <Button buttonName="bad" whenClicked={handleBad} />
       <Button buttonName="neutral" whenClicked={handleNeutral} />
       <Titles title="statistics" />
-      <Display text="good" counter={good} />
-      <Display text="bad" counter={bad} />
-      <Display text="neutral" counter={neutral} />
+      <Display text="good" counter={calculate.good} />
+      <Display text="bad" counter={calculate.bad} />
+      <Display text="neutral" counter={calculate.neutral} />
+      <Display text="Totals: " counter={calculate.total} />
+      <Display text="Average: " counter={calculate.total} />
+      <Display text="Positive: " counter={calculate.total} />
     </div>
   );
 };
