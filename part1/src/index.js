@@ -10,6 +10,7 @@ const Button = ({ btnName, onClick }) => (
 
 const App = () => {
   const [selected, getSelected] = useState(0);
+  const [points, getPoints] = useState({ 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 });
 
   const anecdotes = [
     'If it hurts, do it more often',
@@ -22,12 +23,21 @@ const App = () => {
 
   const getRandomNum = () => {
     getSelected(Math.floor(Math.random() * 5));
+    console.log(selected);
+  };
+
+  const voteForAnecdote = () => {
+    if (getRandomNum === 1) {
+      points(getPoints({ 1: 1 }));
+    }
+    console.log(points);
   };
 
   return (
     <div>
       <Anecdote anecdote={anecdotes} num={selected} />
       <Button btnName="next anecdote" onClick={getRandomNum} />
+      <Button btnName="vote" onClick={voteForAnecdote} />
     </div>
   );
 };
