@@ -1,153 +1,33 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-
-const Titles = ({ title }) => <h1>{title}</h1>;
-
-const Statistic = ({ text, counter, symbol }) => (
-  <td>
-    {`${text} ${counter}`}
-    {symbol === undefined ? '' : `${symbol}`}
-  </td>
-);
-const Statistics = ({ counter }) => {
-  if (counter.total === 0) {
-    return (
-      <div>
-        <h1>Statistics</h1>
-        No feedback available
-      </div>
-    );
-  }
-  return (
-    <div>
-      <h1>Statistics</h1>
-      <table>
-        <tbody>
-          <tr>
-            <Statistic text="good" counter={counter.good} />
-          </tr>
-          <tr>
-            <Statistic text="neutral" counter={counter.neutral} />
-          </tr>
-          <tr>
-            <Statistic text="bad" counter={counter.bad} />
-          </tr>
-          <tr>
-            <Statistic text="Totals: " counter={counter.total} />
-          </tr>
-          <tr>
-            <Statistic text="Average: " counter={counter.average} />
-          </tr>
-          <tr>
-            <Statistic text="Positive: " counter={counter.positive} symbol="%" />
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  );
-};
-
-const Button = ({ buttonName, whenClicked }) => (
-  <button type="button" onClick={whenClicked}>
-    {buttonName}
-  </button>
+const Anecdote = ({ anecdote, num }) => <div>{anecdote[num]}</div>;
+const Button = ({ btnName, onClick }) => (
+  <div>
+    <button onClick={onClick}>{btnName}</button>
+  </div>
 );
 
-Titles.propTypes = {
-  title: PropTypes.string,
-};
-Statistic.propTypes = {
-  text: PropTypes.string,
-  counter: PropTypes.number,
-  symbol: PropTypes.string,
-};
-Button.propTypes = {
-  buttonName: PropTypes.string,
-  whenClicked: PropTypes.func,
-};
-
-Titles.defaultProps = {
-  title: '',
-};
-
-Button.defaultProps = {
-  buttonName: '',
-  whenClicked: '',
-};
-Statistic.defaultProps = {
-  text: '',
-  counter: 0,
-  symbol: '',
-};
 const App = () => {
-  const [calculate, setCalculator] = useState({
-    bad: 0,
-    neutral: 0,
-    good: 0,
-    total: 0,
-    average: 0,
-    positive: 0,
-  });
+  const [selected, getSelected] = useState(0);
 
-  const buttonObj = (() => {
-    const handleGood = () => {
-      setCalculator({
-        ...calculate,
-        total: calculate.good + calculate.bad + calculate.neutral + 1,
-        good: calculate.good + 1,
-        positive: ((calculate.good + 1) / (calculate.total + 1)) * 100,
-        average: (calculate.good + 1 - calculate.bad) / (calculate.total + 1),
-      });
-    };
+  const anecdotes = [
+    'If it hurts, do it more often',
+    'Adding manpower to a late software project makes it later!',
+    'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
+    'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
+    'Premature optimization is the root of all evil.',
+    'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.',
+  ];
 
-    const handleBad = () => {
-      setCalculator({
-        ...calculate,
-
-        total: calculate.good + calculate.bad + calculate.neutral + 1,
-        bad: calculate.bad + 1,
-        positive: (calculate.good / (calculate.total + 1)) * 100,
-        average: (calculate.good - (calculate.bad + 1)) / (calculate.total + 1),
-      });
-    };
-    const handleNeutral = () => {
-      setCalculator({
-        ...calculate,
-        total: calculate.good + calculate.bad + calculate.neutral + 1,
-        neutral: calculate.neutral + 1,
-        positive: (calculate.good / (calculate.total + 1)) * 100,
-        average: (calculate.good - calculate.bad) / (calculate.total + 1),
-      });
-    };
-
-    const reset = () => {
-      setCalculator({
-        ...calculate,
-        positive: 0,
-        total: 0,
-        neutral: 0,
-        average: 0,
-        bad: 0,
-        good: 0,
-      });
-    };
-
-    return {
-      reset,
-      handleBad,
-      handleGood,
-      handleNeutral,
-    };
-  })();
+  const getRandomNum = () => {
+    getSelected(Math.floor(Math.random() * 5));
+  };
 
   return (
     <div>
-      <Titles title="give feedback" />
-      <Button buttonName="good" whenClicked={buttonObj.handleGood} />
-      <Button buttonName="bad" whenClicked={buttonObj.handleBad} />
-      <Button buttonName="neutral" whenClicked={buttonObj.handleNeutral} />
-      <Statistics counter={calculate} />
+      <Anecdote anecdote={anecdotes} num={selected} />
+      <Button btnName="next anecdote" onClick={getRandomNum} />
     </div>
   );
 };
