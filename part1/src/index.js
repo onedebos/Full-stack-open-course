@@ -22,26 +22,28 @@ const Statistics = ({ counter }) => {
   return (
     <div>
       <h1>Statistics</h1>
-      <tbody>
-        <tr>
-          <Statistic text="good" counter={counter.good} />
-        </tr>
-        <tr>
-          <Statistic text="neutral" counter={counter.neutral} />
-        </tr>
-        <tr>
-          <Statistic text="bad" counter={counter.bad} />
-        </tr>
-        <tr>
-          <Statistic text="Totals: " counter={counter.total} />
-        </tr>
-        <tr>
-          <Statistic text="Average: " counter={counter.average} />
-        </tr>
-        <tr>
-          <Statistic text="Positive: " counter={counter.positive} symbol="%" />
-        </tr>
-      </tbody>
+      <table>
+        <tbody>
+          <tr>
+            <Statistic text="good" counter={counter.good} />
+          </tr>
+          <tr>
+            <Statistic text="neutral" counter={counter.neutral} />
+          </tr>
+          <tr>
+            <Statistic text="bad" counter={counter.bad} />
+          </tr>
+          <tr>
+            <Statistic text="Totals: " counter={counter.total} />
+          </tr>
+          <tr>
+            <Statistic text="Average: " counter={counter.average} />
+          </tr>
+          <tr>
+            <Statistic text="Positive: " counter={counter.positive} symbol="%" />
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 };
@@ -51,10 +53,6 @@ const Button = ({ buttonName, whenClicked }) => (
     {buttonName}
   </button>
 );
-
-const Buttons = ({ runFeed }) => {
-  <Button buttonName="good" whenClicked={runFeed.handleGood} />;
-};
 
 Titles.propTypes = {
   title: PropTypes.string,
@@ -92,7 +90,7 @@ const App = () => {
     positive: 0,
   });
 
-  const buttonObj = () => {
+  const buttonObj = (() => {
     const handleGood = () => {
       setCalculator({
         ...calculate,
@@ -135,14 +133,20 @@ const App = () => {
       });
     };
 
-    return { reset, handleBad, handleGood, handleNeutral };
-  };
+    return {
+      reset,
+      handleBad,
+      handleGood,
+      handleNeutral,
+    };
+  })();
 
   return (
     <div>
       <Titles title="give feedback" />
-
-      <Buttons whenClicked={buttonObj} />
+      <Button buttonName="good" whenClicked={buttonObj.handleGood} />
+      <Button buttonName="bad" whenClicked={buttonObj.handleBad} />
+      <Button buttonName="neutral" whenClicked={buttonObj.handleNeutral} />
       <Statistics counter={calculate} />
     </div>
   );
