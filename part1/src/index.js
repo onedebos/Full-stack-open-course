@@ -4,15 +4,28 @@ import PropTypes from 'prop-types';
 
 const Titles = ({ title }) => <h1>{title}</h1>;
 
-const Statistics = ({ text, counter, symbol }) =>
-  counter === 0 ? (
+const Statistic = ({ text, counter, symbol }) => (
+  <div>
+    {`${text} ${counter}`}
+    {symbol === undefined ? '' : `${symbol}`}
+  </div>
+);
+const Statistics = ({ counter }) => {
+  if (counter.total === 0) {
+    return <div>No feedback available</div>;
+  }
+  return (
     <div>
-      {`${text} ${counter}`}
-      {symbol === undefined ? '' : `${symbol}`}
+      <Statistic text="good" counter={counter.good} />
+      <Statistic text="neutral" counter={counter.neutral} />
+      <Statistic text="bad" counter={counter.bad} />
+      <Statistic text="Totals: " counter={counter.total} />
+      <Statistic text="Average: " counter={counter.average} />
+      <Statistic text="Positive: " counter={counter.positive} symbol="%" />
     </div>
-  ) : (
-    <div>No feedback available</div>
   );
+};
+
 const Button = ({ buttonName, whenClicked }) => (
   <button type="button" onClick={whenClicked}>
     {buttonName}
@@ -22,7 +35,7 @@ const Button = ({ buttonName, whenClicked }) => (
 Titles.propTypes = {
   title: PropTypes.string,
 };
-Statistics.propTypes = {
+Statistic.propTypes = {
   text: PropTypes.string,
   counter: PropTypes.number,
   symbol: PropTypes.string,
@@ -40,7 +53,7 @@ Button.defaultProps = {
   buttonName: '',
   whenClicked: '',
 };
-Statistics.defaultProps = {
+Statistic.defaultProps = {
   text: '',
   counter: 0,
   symbol: '',
@@ -105,12 +118,7 @@ const App = () => {
       <Button buttonName="reset" whenClicked={reset} />
       <Button buttonName="neutral" whenClicked={handleNeutral} />
       <Titles title="statistics" />
-      <Statistics text="good" counter={calculate.good} />
-      <Statistics text="neutral" counter={calculate.neutral} />
-      <Statistics text="bad" counter={calculate.bad} />
-      <Statistics text="Totals: " counter={calculate.total} />
-      <Statistics text="Average: " counter={calculate.average} />
-      <Statistics text="Positive: " counter={calculate.positive} symbol="%" />
+      <Statistics counter={calculate} />
     </div>
   );
 };
