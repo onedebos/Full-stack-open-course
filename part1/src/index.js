@@ -1,35 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Course from './Course';
 
-const Course = ({ course, header, part, exercises }) => (
-  <div>
-    <Header course={header} />
-    <Content part={part} exercises={exercises} />
-    {course}
-  </div>
-);
-const Header = ({ course }) => (
-  <div>
-    <h1>{course}</h1>
-  </div>
-);
-
-const Content = ({ part, exercises }) => (
-  <div>
-    <p>{`${part} ${exercises}`}</p>
-  </div>
-);
-
-const Total = ({ sum, text }) => (
-  <div>
-    <p>{text + sum}</p>
-  </div>
-);
+const uuidv4 = require('uuid/v4');
 
 const App = () => {
-  const courses = [
+  const course = [
     {
-      title: 'Half stack application development',
+      title: 'Half Stack application development',
+      id: 1,
       parts: [
         {
           name: 'Fundamentals of React',
@@ -37,32 +16,43 @@ const App = () => {
           id: 1,
         },
         {
-          name: 'using props to pass data',
+          name: 'Using props to pass data',
           exercises: 7,
           id: 2,
         },
         {
-          name: 'state of a component',
+          name: 'State of a component',
           exercises: 14,
           id: 3,
+        },
+        {
+          name: 'Redux',
+          exercises: 11,
+          id: 4,
+        },
+      ],
+    },
+    {
+      title: 'Node.js',
+      id: 2,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 3,
+          id: 1,
+        },
+        {
+          name: 'Middlewares',
+          exercises: 7,
+          id: 2,
         },
       ],
     },
   ];
 
-  const displayCourses = () =>
-    courses.map((course) => (
-      <div>
-        <Content
-          key={course.parts.map((part) => part.id)}
-          part={course.parts.map((part) => part.name)}
-          exercises={course.parts.map((part) => part.exercises)}
-        />
-      </div>
-    ));
   return (
     <div>
-      <Course key="0" course={displayCourses()} />
+      <Course course={course} key={uuidv4()} />
     </div>
   );
 };
