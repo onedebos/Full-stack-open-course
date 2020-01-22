@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import Course from './Course';
-
-const uuidv4 = require('uuid/v4');
 
 const App = () => {
   const course = [
@@ -52,7 +50,7 @@ const App = () => {
 
   return (
     <div>
-      <Course course={course} key={uuidv4()} />
+      <Course course={course} />
     </div>
   );
 };
