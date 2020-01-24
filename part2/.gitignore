@@ -22,5 +22,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-/src/components/
+/src/components/App.js
+/src/components/Counter.js
+/src/components/Note.js
+/db.json
+/run.js
+
 
