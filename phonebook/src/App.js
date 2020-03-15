@@ -1,84 +1,69 @@
-import React, { useState, useEffect } from "react";
-import Note from "./components/Note";
-import { Notification } from "./components/Notification";
-import noteService from "./services/notes";
+import React, { useState } from "react";
+import Phonebook from "./components/Phonebook";
+import { Filter } from "./components/Filter";
+import { Numbers } from "./components/Numbers";
 
-const App = () => {
-  const [notes, setNotes] = useState([]);
-  const [newNote, setNewNote] = useState("");
-  const [showAll, setShowAll] = useState(true);
-  const [errorMessage, setErrorMessage] = useState("some error happened");
+export const App = () => {
+  const [name, setName] = useState("");
+  const [word, setWord] = useState("");
+  const [number, setNumber] = useState("");
+  const [persons, setPerson] = useState([
+    {
+      name: "Dayo Olorinla",
+      number: "+234-1234-5678"
+    },
+    { name: "Temi Otedola", number: "+234-9029-9229" },
+    { name: "Zlatan Ibile", number: "+234-1243-2345" }
+  ]);
+  const [filterDisplay, setFilterDisplay] = useState([]);
 
-  useEffect(() => {
-    noteService.getAll().then(initialNotes => {
-      setNotes(initialNotes);
-    });
-  }, []);
-
-  const addNote = event => {
-    event.preventDefault();
-    const noteObject = {
-      content: newNote,
-      date: new Date().toISOString(),
-      important: Math.random() > 0.5,
-      id: notes.length + 1
+  const handleSubmit = e => {
+    e.preventDefault();
+    const found = persons.filter(person => name === person.name);
+    if (found.length > 0) {
+      setName("");
+      setNumber("");
+      return alert(`${name} already exists`);
+    }
+    const personObject = {
+      name,
+      number
     };
+    setPerson(persons.concat(personObject));
+    setName("");
+    setNumber("");
+  };
 
-    noteService.create(noteObject).then(returnedNote => {
-      setNotes(notes.concat(returnedNote));
-      setNewNote("");
+  const handleChange = e => {
+    setWord(e);
+    let oldList = persons.map(person => {
+      return { name: person.name.toLowerCase(), number: person.number };
     });
+
+    if (word !== "") {
+      let newList = [];
+
+      newList = oldList.filter(person =>
+        person.name.includes(word.toLowerCase())
+      );
+
+      setFilterDisplay(newList);
+    } else {
+      setFilterDisplay(persons);
+    }
   };
-
-  const toggleImportanceOf = id => {
-    const url = `http://localhost:3001/notes/${id}`;
-    const note = notes.find(n => n.id === id);
-    const changedNote = { ...note, important: !note.important };
-
-    noteService
-      .update(id, changedNote)
-      .then(returnedNote => {
-        setNotes(notes.map(note => (note.id !== id ? note : returnedNote)));
-      })
-      .catch(error => {
-        setErrorMessage(
-          `the note '${note.content}' was already deleted from server`
-        );
-        setTimeout(() => {
-          setErrorMessage(null);
-        }, 3000);
-        setNotes(notes.filter(n => n.id !== id));
-      });
-  };
-
-  const handleNoteChange = event => {
-    setNewNote(event.target.value);
-  };
-
-  const notesToShow = showAll ? notes : notes.filter(note => note.important);
 
   return (
     <div>
-      <h1>Notes</h1>
-      <Notification message={errorMessage} />
-      <div>
-        <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? "important" : "all"}
-        </button>
-      </div>
-      <ul>
-        {notesToShow.map((note, i) => (
-          <Note
-            key={i}
-            note={note}
-            toggleImportance={() => toggleImportanceOf(note.id)}
-          />
-        ))}
-      </ul>
-      <form onSubmit={addNote}>
-        <input value={newNote} onChange={handleNoteChange} />
-        <button type="submit">save</button>
-      </form>
+      <Filter value={word} handleChange={e => handleChange(e.target.value)} />
+      <Phonebook
+        name={name}
+        number={number}
+        onChangeName={e => setName(e.target.value)}
+        onChangeNumber={e => setNumber(e.target.value)}
+        onSubmit={handleSubmit}
+      />
+      <Numbers persons={word.length < 1 ? persons : filterDisplay} />
     </div>
   );
 };
