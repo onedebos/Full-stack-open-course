@@ -1,22 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Phonebook from "./components/Phonebook";
 import { Filter } from "./components/Filter";
 import { Numbers } from "./components/Numbers";
-
+import axios from "axios";
+import { getAll } from "./services/person";
 export const App = () => {
   const [name, setName] = useState("");
   const [word, setWord] = useState("");
   const [number, setNumber] = useState("");
-  const [persons, setPerson] = useState([
-    {
-      name: "Dayo Olorinla",
-      number: "+234-1234-5678"
-    },
-    { name: "Temi Otedola", number: "+234-9029-9229" },
-    { name: "Zlatan Ibile", number: "+234-1243-2345" }
-  ]);
+  const [persons, setPerson] = useState([]);
   const [filterDisplay, setFilterDisplay] = useState([]);
 
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/persons")
+      .then(response => setPerson(response.data))
+      .catch(console.log("there was an error"));
+  }, []);
   const handleSubmit = e => {
     e.preventDefault();
     const found = persons.filter(person => name === person.name);
