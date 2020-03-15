@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import Phonebook from "./components/Phonebook";
 import { Filter } from "./components/Filter";
 import { Numbers } from "./components/Numbers";
-import axios from "axios";
-import { getAll } from "./services/person";
+import Service from "./services/person";
+
 export const App = () => {
   const [name, setName] = useState("");
   const [word, setWord] = useState("");
@@ -12,8 +12,7 @@ export const App = () => {
   const [filterDisplay, setFilterDisplay] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/persons")
+    Service.getAll()
       .then(response => setPerson(response.data))
       .catch(console.log("there was an error"));
   }, []);
