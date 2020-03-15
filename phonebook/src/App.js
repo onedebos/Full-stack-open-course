@@ -36,14 +36,14 @@ export const App = () => {
   const handleChange = e => {
     setWord(e);
     let oldList = persons.map(person => {
-      return { name: person.name.toLowerCase(), number: person.number };
+      return { name: person.name, number: person.number };
     });
 
     if (word !== "") {
       let newList = [];
 
       newList = oldList.filter(person =>
-        person.name.includes(word.toLowerCase())
+        person.name.toLowerCase().includes(word.toLowerCase())
       );
 
       setFilterDisplay(newList);
