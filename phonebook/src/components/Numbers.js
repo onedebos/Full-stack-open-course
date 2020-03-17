@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Numbers = ({ persons }) => {
+export const Numbers = ({ persons, handleDelete }) => {
   return (
     <div>
       <h1>Numbers</h1>
@@ -9,6 +9,9 @@ export const Numbers = ({ persons }) => {
           <li>
             {person.name} &nbsp;
             <span>{person.number}</span>
+            <span>
+              <button onClick={() => handleDelete(person.id)}>delete</button>
+            </span>
           </li>
         </div>
       ))}

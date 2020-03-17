@@ -18,17 +18,29 @@ export const App = () => {
   }, []);
   const handleSubmit = e => {
     e.preventDefault();
-    const found = persons.filter(person => name === person.name);
-    if (found.length > 0) {
-      setName("");
-      setNumber("");
-      return alert(`${name} already exists`);
+    const person = persons.filter(person => person.name === name);
+    if (person.length > 0) {
+      const updatedPerson = { ...person, number: person.number };
+      const response = window.confirm(
+        `${name} already exists, Do you want to update the number?`
+      );
+      if (response) {
+        Service.update(updatedPerson, person[0].id).then(response =>
+          setPerson(
+            person.map(person !== person[0].id ? person : response.data)
+          )
+        );
+      }
+    } else {
+      const personObject = {
+        name,
+        number
+      };
+      Service.create(personObject).then(response =>
+        setPerson(persons.concat(response.data))
+      );
     }
-    const personObject = {
-      name,
-      number
-    };
-    setPerson(persons.concat(personObject));
+
     setName("");
     setNumber("");
   };
@@ -52,6 +64,16 @@ export const App = () => {
     }
   };
 
+  const handleDelete = id => {
+    const person = persons.find(person => person.id === id);
+    const result = window.confirm(`Do you want to delete ${person.name}?`);
+    if (result) {
+      Service.deleted(id);
+      const newList = persons.filter(person => person.id !== id);
+      setPerson(newList);
+    }
+  };
+
   return (
     <div>
       <Filter value={word} handleChange={e => handleChange(e.target.value)} />
@@ -62,7 +84,10 @@ export const App = () => {
         onChangeNumber={e => setNumber(e.target.value)}
         onSubmit={handleSubmit}
       />
-      <Numbers persons={word.length < 1 ? persons : filterDisplay} />
+      <Numbers
+        persons={word.length < 1 ? persons : filterDisplay}
+        handleDelete={handleDelete}
+      />
     </div>
   );
 };
