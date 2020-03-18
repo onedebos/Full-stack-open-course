@@ -20,25 +20,24 @@ export const App = () => {
     e.preventDefault();
     const person = persons.filter(person => person.name === name);
     if (person.length > 0) {
-      const updatedPerson = { ...person, number: person.number };
+      const updatedPerson = { name: name, number: number };
       const response = window.confirm(
         `${name} already exists, Do you want to update the number?`
       );
       if (response) {
-        Service.update(updatedPerson, person[0].id).then(response =>
-          setPerson(
-            person.map(person !== person[0].id ? person : response.data)
-          )
-        );
+        Service.update(updatedPerson, person[0].id).then(returnedPerson => {
+          Service.getAll().then(response => setPerson(response.data));
+        });
       }
     } else {
       const personObject = {
         name,
         number
       };
-      Service.create(personObject).then(response =>
-        setPerson(persons.concat(response.data))
-      );
+      Service.create(personObject).then(response => {
+        console.log(response.data);
+        setPerson(persons.concat(response.data));
+      });
     }
 
     setName("");
