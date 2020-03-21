@@ -25,8 +25,15 @@ export const App = () => {
         `${name} already exists, Do you want to update the number?`
       );
       if (response) {
-        Service.update(updatedPerson, person[0].id).then(returnedPerson => {
-          Service.getAll().then(response => setPerson(response.data));
+        Service.update(updatedPerson, person[0].id).then(() => {
+          const oldPersons = [...persons];
+          const newPersonState = oldPersons.map(person => {
+            if (person.name === updatedPerson.name) {
+              person.number = updatedPerson.number;
+            }
+            return person;
+          });
+          setPerson(newPersonState);
         });
       }
     } else {
