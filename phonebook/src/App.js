@@ -42,7 +42,6 @@ export const App = () => {
         number
       };
       Service.create(personObject).then(response => {
-        console.log(response.data);
         setPerson(persons.concat(response.data));
       });
     }
