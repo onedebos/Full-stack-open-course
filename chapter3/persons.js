@@ -89,7 +89,8 @@ app.post("/api/persons/", (req, res) => {
   res.json(phonebook);
 });
 
-const port = 3001;
-app.listen(port);
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`app running on port ${PORT}`);
+});
 // app.use(morgan("dev"));
-console.log(`app running on port ${port}`);
