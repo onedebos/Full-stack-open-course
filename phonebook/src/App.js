@@ -28,7 +28,7 @@ export const App = () => {
         `${name} already exists, Do you want to update the number?`
       );
       if (response) {
-        Service.update(updatedPerson, person[0].id).then(() => {
+        Service.update(updatedPerson, person[0]._id).then(() => {
           const oldPersons = [...persons];
           const newPersonState = oldPersons.map(person => {
             if (person.name === updatedPerson.name) {
