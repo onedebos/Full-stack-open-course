@@ -10,7 +10,7 @@ export const Numbers = ({ persons, handleDelete }) => {
             {person.name} &nbsp;
             <span>{person.number}</span>
             <span>
-              <button onClick={() => handleDelete(person.id)}>delete</button>
+              <button onClick={() => handleDelete(person._id)}>delete</button>
             </span>
           </li>
         </div>

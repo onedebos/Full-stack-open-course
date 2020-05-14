@@ -13,7 +13,10 @@ export const App = () => {
 
   useEffect(() => {
     Service.getAll()
-      .then(response => setPerson(response.data))
+      .then(response => {
+        setPerson(response.data);
+        console.log(response.data);
+      })
       .catch(console.log("there was an error"));
   }, []);
   const handleSubmit = e => {
@@ -70,11 +73,12 @@ export const App = () => {
   };
 
   const handleDelete = id => {
-    const person = persons.find(person => person.id === id);
+    console.log(id);
+    const person = persons.find(person => person._id === id);
     const result = window.confirm(`Do you want to delete ${person.name}?`);
     if (result) {
       Service.deleted(id);
-      const newList = persons.filter(person => person.id !== id);
+      const newList = persons.filter(person => person._id !== id);
       setPerson(newList);
     }
   };
