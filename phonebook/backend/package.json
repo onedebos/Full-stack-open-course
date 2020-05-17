@@ -5,14 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "node App.js",
+    "dev": "nodemon App.js",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "dotenv": "^8.2.0",
-    "nodemon": "^2.0.3"
+    "eslint": "^7.0.0",
+    "nodemon": "^2.0.3",
+    "prettier": "^2.0.5"
   },
   "dependencies": {
     "cors": "^2.8.5",
