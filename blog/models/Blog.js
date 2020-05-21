@@ -1,18 +1,27 @@
-const mongoose = require("mongoose");
-const config = require("../utils/config");
+const mongoose = require('mongoose');
+const config = require('../utils/config');
 
 mongoose.connect(config.DB_LINK, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 });
 
 const blogSchema = mongoose.Schema({
-  title: String,
+  title: {
+    type: String,
+    required: true,
+  },
   author: String,
-  url: String,
-  likes: Number
+  url: {
+    type: String,
+    required: true,
+  },
+  likes: {
+    type: Number,
+    default: 0,
+  },
 });
 
-const Blog = mongoose.model("Blog", blogSchema);
+const Blog = mongoose.model('Blog', blogSchema);
 
 module.exports = Blog;

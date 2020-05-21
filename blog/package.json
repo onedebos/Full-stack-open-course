@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --verbose",
-    "start": "node App.js",
-    "dev": "nodemon App.js"
+    "test": "NODE_ENV=test jest --verbose --runInBand",
+    "start": "NODE_ENV=production node App.js",
+    "dev": "NODE_ENV=development nodemon App.js",
+    "start-test": "NODE_ENV=test nodemon App.js"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +20,8 @@
     "jest": "^26.0.1",
     "lodash": "^4.17.15",
     "nodemon": "^2.0.4",
-    "prettier": "^2.0.5"
+    "prettier": "^2.0.5",
+    "supertest": "^4.0.2"
   },
   "dependencies": {
     "cors": "^2.8.5",
