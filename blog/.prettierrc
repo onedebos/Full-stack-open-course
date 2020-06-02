@@ -1,4 +1,9 @@
 {
   "singleQuote": true,
-  "arrowParens": "always"
+  "arrowParens": "always",
+  "endOfLine": "lf",
+  "jsxBracketSameLine": false,
+  "proseWrap": "preserve",
+  "semi": true,
+  "bracketSpacing": true
 }

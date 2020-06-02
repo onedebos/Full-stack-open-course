@@ -3,17 +3,17 @@ module.exports = {
     browser: true,
     commonjs: true,
     es6: true,
-    jest: true
+    jest: true,
   },
   extends: ['airbnb-base'],
   globals: {
     Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
+    SharedArrayBuffer: 'readonly',
   },
   parserOptions: {
-    ecmaVersion: 11
+    ecmaVersion: 11,
   },
   rules: {
-    'brace-style': ['below']
-  }
+    'no-underscore-dangle': [2, { allow: ['_id'] }],
+  },
 };
