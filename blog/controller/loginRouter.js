@@ -25,9 +25,9 @@ loginRouter.post('/', async (request, response) => {
 
     response
       .status(200)
-      .send({ token, username: user.username, name: user.name });
+      .send({ token, username: user.username, name: user.name, id: user.id });
   } catch (error) {
-    response.json({
+    response.status(401).json({
       error: `Something went wrong while we were signing you in. ${error}`,
     });
   }

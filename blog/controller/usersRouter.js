@@ -1,16 +1,20 @@
 const usersRouter = require('express').Router();
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
 usersRouter.get('/', async (request, response) => {
-  const users = await User.find({}).populate('blogs');
-
-  response.json(users.map((user) => user));
+  try {
+    const decodedToken = jwt.verify(request.token, process.env.SECRET);
+    console.log(decodedToken);
+    const users = await User.find({}).populate('blogs');
+    response.json(users.map((user) => user));
+  } catch (error) {}
 });
 
 usersRouter.post('/', async (request, response) => {
   const { username, name, password } = request.body;
-
+  console.log(username);
   try {
     if (password === undefined || password.length < 3) {
       return response.json({

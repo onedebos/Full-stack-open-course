@@ -5,6 +5,7 @@ const loginRoute = require('./controller/loginRouter');
 
 const middleware = require('./utils/middleware');
 
+app.use(middleware.tokenExtractor);
 app.use('/api/blogs', blogRoute);
 app.use('/api/users', usersRoute);
 app.use('/api/login', loginRoute);

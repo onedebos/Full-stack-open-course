@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test jest --verbose --runInBand",
+    "test": "NODE_ENV=test jest --verbose --runInBand --forceExit --detectOpenHandles",
     "start": "NODE_ENV=production node App.js",
     "dev": "NODE_ENV=development nodemon App.js",
     "start-test": "NODE_ENV=test nodemon App.js"
